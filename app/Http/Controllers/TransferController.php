@@ -9,18 +9,33 @@ use Illuminate\Http\Request;
 class TransferController extends Controller
 {
     public function index(Request $request)
-{
-    $query = $request->input('search');
-    $transfers = Transfer::when($query, function ($q) use ($query) {
-        $q->whereHas('sourceAccount', function ($sourceQuery) use ($query) {
-            $sourceQuery->where('name', 'like', '%' . $query . '%');
-        })->orWhereHas('destinationAccount', function ($destinationQuery) use ($query) {
-            $destinationQuery->where('name', 'like', '%' . $query . '%');
-        });
-    })->with(['sourceAccount', 'destinationAccount'])->get();
+    {
+        // Fetch all transfers with optional filtering
+        $query = $request->input('search');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-    return view('transfers.index', compact('transfers'));
-}
+        $transfers = Transfer::when($query, function ($q) use ($query) {
+            $q->whereHas('sourceAccount', function ($sourceQuery) use ($query) {
+                $sourceQuery->where('name', 'like', '%' . $query . '%');
+            })->orWhereHas('destinationAccount', function ($destinationQuery) use ($query) {
+                $destinationQuery->where('name', 'like', '%' . $query . '%');
+            });
+        })
+        ->when($startDate, function ($q) use ($startDate) {
+            $q->whereDate('transfer_date', '>=', $startDate);
+        })
+        ->when($endDate, function ($q) use ($endDate) {
+            $q->whereDate('transfer_date', '<=', $endDate);
+        })
+        ->with(['sourceAccount', 'destinationAccount'])
+        ->get();
+
+        // Fetch all accounts for destination account totals and filtering
+        $accounts = Account::all();
+
+        return view('transfers.index', compact('transfers', 'accounts'));
+    }
 
     public function create()
     {
