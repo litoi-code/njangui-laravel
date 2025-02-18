@@ -1,0 +1,67 @@
+@extends('layouts.app')
+
+@section('content')
+<h1 class="mb-3">Accounts</h1>
+<a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a>
+<h2 class="mb-4">Total Accounts: <span id="account-count">{{ $accounts->count() }}</span></h2>
+
+<div class="input-group mb-3">
+    <input type="text" id="account-search" class="form-control" placeholder="Search by name..." onkeyup="searchAccounts()">
+    <button class="btn btn-primary" type="button" onclick="clearSearch()">Clear</button>
+</div>
+
+<table class="table table-striped table-bordered" id="account-table">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Balance</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($accounts as $account)
+            <tr>
+                <td>{{ $account->name }}</td>
+                <td>{{ $account->type }}</td>
+                <td>${{ number_format($account->balance, 2) }}</td>
+                <td>
+                    <a href="{{ route('accounts.edit', $account->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                    <form action="{{ route('accounts.destroy', $account->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a>
+
+<script>
+    function searchAccounts() {
+        const query = document.getElementById('account-search').value.toLowerCase();
+        const rows = document.querySelectorAll('#account-table tbody tr');
+        let count = 0;
+
+        rows.forEach(row => {
+            const name = row.cells[0].textContent.toLowerCase();
+            if (name.includes(query)) {
+                row.style.display = '';
+                count++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        document.getElementById('account-count').textContent = count;
+    }
+
+    function clearSearch() {
+        document.getElementById('account-search').value = '';
+        searchAccounts();
+    }
+</script>
+@endsection
