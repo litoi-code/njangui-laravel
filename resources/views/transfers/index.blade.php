@@ -4,12 +4,12 @@
 <div class="container">
     <!-- Total Transfers per Destination Account -->
     <h2 class="mb-4 d-flex justify-content-between align-items-center">
-        <span>Total Transfers: <span id="transfer-count">{{ $transfers->count() }}</span></span>
-        <a href="{{ route('transfers.create') }}" class="btn btn-success">Create New Transfer</a>
+        <span>Total Transactions: <span id="transfer-count">{{ $transfers->count() }}</span></span>
+        <a href="{{ route('transfers.create') }}" class="btn btn-success">Nouvelle transaction</a>
     </h2>
     <div class="row mb-4" id="destination-total-cards">
         @if ($transfers->isNotEmpty())
-            {{-- <h3 class="text-primary mb-3">Total Transfers per Destination Account</h3> --}}
+            <h3 class="text-primary mb-3"> Transfers per Destination Account</h3>
             @foreach ($transfers->groupBy('destination_account_id') as $destinationId => $groupedTransfers)
                 @php
                     $destinationAccount = $accounts->firstWhere('id', $destinationId);
@@ -155,7 +155,7 @@
             if (Object.keys(destinationTotals).length > 0) {
                 const header = document.createElement('h3');
                 header.className = 'text-primary mb-3';
-                header.textContent = 'Total Transfers per Destination Account';
+                // header.textContent = 'Total Transfers per Destination Account';
                 cardContainer.appendChild(header);
 
                 for (const [destinationId, totalAmount] of Object.entries(destinationTotals)) {
@@ -173,7 +173,7 @@
 
                     const cardBody = document.createElement('div');
                     cardBody.className = 'card-body';
-                    cardBody.innerHTML = `<p class="card-text"><strong>Total Amount:</strong> $${totalAmount.toFixed(2)}</p>`;
+                    cardBody.innerHTML = `<p class="card-text"><strong>Balance:</strong> ${totalAmount.toFixed(2)} FCFA</p>`;
 
                     cardDiv.appendChild(cardHeader);
                     cardDiv.appendChild(cardBody);
