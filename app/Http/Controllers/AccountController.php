@@ -12,7 +12,7 @@ class AccountController extends Controller
         $query = $request->input('search');
         $accounts = Account::when($query, function ($q) use ($query) {
             $q->where('name', 'like', '%' . $query . '%');
-        })->get();
+        })->paginate(10);
 
         return view('accounts.index', compact('accounts'));
     }

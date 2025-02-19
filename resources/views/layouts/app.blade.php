@@ -16,6 +16,10 @@
         .container {
             margin-top: 20px;
         }
+        .navbar {
+            background-color: #95e93c;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }       
         .card {
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -28,6 +32,25 @@
             background-color: #0056b3;
             border-color: #0056b3;
         }
+
+        /* Custom Pagination Styles */
+    .pagination {
+        --bs-pagination-color: #007bff;
+        --bs-pagination-active-bg: #007bff;
+        --bs-pagination-active-color: #fff;
+        --bs-pagination-hover-bg: #e9ecef;
+    }
+
+    .pagination .page-link {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        line-height: 1.5;
+    }
+
+    .pagination .page-item:first-child .page-link,
+    .pagination .page-item:last-child .page-link {
+        border-radius: 0.25rem;
+    }
     </style>
 </head>
 <body>

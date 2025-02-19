@@ -88,7 +88,10 @@
             @endforeach
         </tbody>
     </table>
-
+<!-- Pagination Links -->
+<div class="mt-4 d-flex justify-content-center">
+    {{ $transfers->appends(request()->except('page'))->links() }}
+</div>
     <!-- Create New Transfer Button -->
     {{-- <a href="{{ route('transfers.create') }}" class="btn btn-success">Create New Transfer</a> --}}
 

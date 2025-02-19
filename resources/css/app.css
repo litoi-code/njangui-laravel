@@ -157,3 +157,22 @@ body {
     color: white;
     border-color: #007bff;
 }
+
+/* Custom Pagination Styles */
+.pagination {
+    --bs-pagination-color: #007bff; /* Link color */
+    --bs-pagination-active-bg: #007bff; /* Active page background */
+    --bs-pagination-active-color: #fff; /* Active page text color */
+    --bs-pagination-hover-bg: #e9ecef; /* Hover background */
+}
+
+.pagination .page-link {
+    font-size: 1rem; /* Adjust font size */
+    padding: 0.5rem 1rem; /* Adjust padding */
+    line-height: 1.5; /* Adjust line height */
+}
+
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+    border-radius: 0.25rem; /* Rounded corners */
+}

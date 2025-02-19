@@ -41,7 +41,10 @@
         @endforeach
     </tbody>
 </table>
-
+<!-- Pagination Links -->
+<div class="mt-4 d-flex justify-content-center">
+    {{ $accounts->appends(request()->except('page'))->links() }}
+</div>
 {{-- <a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a> --}}
 
 <script>

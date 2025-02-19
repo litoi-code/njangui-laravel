@@ -29,7 +29,7 @@ class TransferController extends Controller
             $q->whereDate('transfer_date', '<=', $endDate);
         })
         ->with(['sourceAccount', 'destinationAccount'])
-        ->get();
+        ->paginate(10);
 
         // Fetch all accounts for destination account totals and filtering
         $accounts = Account::all();

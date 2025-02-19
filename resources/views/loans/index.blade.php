@@ -2,7 +2,10 @@
 
 @section('content')
 <h1 class="mb-3">Loans</h1>
-<h2 class="mb-4">Total Loans: <span id="loan-count">{{ $loans->count() }}</span></h2>
+<h2 class="mb-4 d-flex justify-content-between align-items-center">
+    <span>Total Emprunts: <span id="transfer-count">{{ $loans->count() }}</span></span>
+    <a href="{{ route('transfers.create') }}" class="btn btn-success">Nouvel Emprunt</a>
+</h2>
 
 <div class="input-group mb-3">
     <input type="text" id="loan-search" class="form-control" placeholder="Search by borrower or lender..." onkeyup="searchLoans()">
@@ -46,8 +49,12 @@
         @endforeach
     </tbody>
 </table>
+<!-- Pagination Links -->
+<div class="mt-4 d-flex justify-content-center">
+    {{ $loans->appends(request()->except('page'))->links() }}
+</div>
 
-<a href="{{ route('loans.create') }}" class="btn btn-success">Create New Loan</a>
+{{-- <a href="{{ route('loans.create') }}" class="btn btn-success">Create New Loan</a> --}}
 
 <script>
     function searchLoans() {

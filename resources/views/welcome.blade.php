@@ -22,7 +22,7 @@
                             {{ $account->name }}
                         </div>
                         <div class="card-body">
-                            <p class="card-text"><strong>Balance:</strong> ${{ number_format($account->balance, 2) }}</p>
+                            <p class="card-text"><strong>Solde:</strong> {{ number_format($account->balance, 2) }} Fcfa</p>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                             {{ $account->name }}
                         </div>
                         <div class="card-body">
-                            <p class="card-text"><strong>Balance:</strong> ${{ number_format($account->balance, 2) }}</p>
+                            <p class="card-text"><strong>Solde:</strong> {{ number_format($account->balance, 2) }} Fcfa</p>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
             Total Loan Repayment
         </div>
         <div class="card-body">
-            <h5 class="card-title">${{ number_format(\App\Models\Loan::sum('total_repayment'), 2) }}</h5>
+            <h5 class="card-title">{{ number_format(\App\Models\Loan::sum('total_repayment'), 2) }} Fcfa</h5>
         </div>
     </div>
 

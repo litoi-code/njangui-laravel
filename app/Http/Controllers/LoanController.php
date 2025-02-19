@@ -17,7 +17,7 @@ class LoanController extends Controller
         })->orWhereHas('destinationAccount', function ($destinationQuery) use ($query) {
             $destinationQuery->where('name', 'like', '%' . $query . '%');
         });
-    })->with(['sourceAccount', 'destinationAccount'])->get();
+    })->with(['sourceAccount', 'destinationAccount'])->paginate(10);
 
     return view('loans.index', compact('loans'));
 }
