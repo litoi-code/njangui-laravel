@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="mb-3">Accounts</h1>
-<a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a>
-<h2 class="mb-4">Total Accounts: <span id="account-count">{{ $accounts->count() }}</span></h2>
+{{-- <h1 class="mb-3">Accounts</h1> --}}
+{{-- <a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a> --}}
+<h2 class="mb-4 d-flex justify-content-between align-items-center">
+    <span>Total: <span id="account-count">{{ $accounts->count() }}</span></span>
+    <a href="{{ route('accounts.create') }}" class="btn btn-success">Nouveau Compte</a>
+</h2>
+{{-- <h2 class="mb-4">Total Accounts: <span id="account-count">{{ $accounts->count() }}</span></h2> --}}
 
 <div class="input-group mb-3">
     <input type="text" id="account-search" class="form-control" placeholder="Search by name..." onkeyup="searchAccounts()">
@@ -13,7 +17,7 @@
 <table class="table table-striped table-bordered" id="account-table">
     <thead class="table-dark">
         <tr>
-            <th>Name</th>
+            <th>Nom</th>
             <th>Type</th>
             <th>Balance</th>
             <th>Actions</th>
@@ -26,11 +30,11 @@
                 <td>{{ $account->type }}</td>
                 <td>${{ number_format($account->balance, 2) }}</td>
                 <td>
-                    <a href="{{ route('accounts.edit', $account->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{{ route('accounts.edit', $account->id) }}" class="btn btn-sm btn-primary">Editer</a>
                     <form action="{{ route('accounts.destroy', $account->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Supprimer</button>
                     </form>
                 </td>
             </tr>
@@ -38,7 +42,7 @@
     </tbody>
 </table>
 
-<a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a>
+{{-- <a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a> --}}
 
 <script>
     function searchAccounts() {

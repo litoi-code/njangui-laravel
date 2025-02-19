@@ -3,16 +3,13 @@
 @section('content')
 <div class="container">
     <!-- Total Transfers per Destination Account -->
-    <h2 class="mb-4 d-flex justify-content-between align-items-center">
-        <span>Total Transactions: <span id="transfer-count">{{ $transfers->count() }}</span></span>
-        <a href="{{ route('transfers.create') }}" class="btn btn-success">Nouvelle transaction</a>
-    </h2>
     <div class="row mb-4" id="destination-total-cards">
         @if ($transfers->isNotEmpty())
-            <h3 class="text-primary mb-3"> Transfers per Destination Account</h3>
+            <h3 class="text-primary mb-3">Total Transfers per Destination Account</h3>
             @foreach ($transfers->groupBy('destination_account_id') as $destinationId => $groupedTransfers)
                 @php
                     $destinationAccount = $accounts->firstWhere('id', $destinationId);
+                    if (!$destinationAccount) continue; // Skip if account not found
                     $totalAmount = $groupedTransfers->sum('amount');
                 @endphp
                 <div class="col-md-6 col-lg-4 mb-3">
@@ -21,7 +18,7 @@
                             {{ $destinationAccount->name }} ({{ $destinationAccount->type }})
                         </div>
                         <div class="card-body">
-                            <p class="card-text"><strong>Total Amount:</strong> {{ number_format($totalAmount, 2) }} FCFA</p>
+                            <p class="card-text"><strong>Total Amount:</strong> ${{ number_format($totalAmount, 2) }}</p>
                         </div>
                     </div>
                 </div>
@@ -30,6 +27,12 @@
             <div class="alert alert-info mb-4">No transfers available.</div>
         @endif
     </div>
+
+    <!-- Transfer Count Display -->
+    <h2 class="mb-4 d-flex justify-content-between align-items-center">
+        <span>Total Transfers: <span id="transfer-count">{{ $transfers->count() }}</span></span>
+        <a href="{{ route('transfers.create') }}" class="btn btn-success">Create New Transfer</a>
+    </h2>
 
     <!-- Search and Date Filters -->
     <div class="row mb-3">
@@ -57,11 +60,11 @@
     <table class="table table-striped table-bordered" id="transfer-table">
         <thead class="table-dark">
             <tr>
-                <th>Source Account</th>
-                <th>Destination Account</th>
-                <th>Amount</th>
-                <th>Transfer Date</th>
-                <th>Location</th>
+                <th>Source </th>
+                <th>Destination </th>
+                <th>Montant</th>
+                <th> Date</th>
+                <th>Lieu</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -70,7 +73,7 @@
                 <tr data-transfer-date="{{ $transfer->transfer_date }}" data-destination-id="{{ $transfer->destination_account_id }}">
                     <td>{{ $transfer->sourceAccount->name }} ({{ $transfer->sourceAccount->type }})</td>
                     <td>{{ $transfer->destinationAccount->name }} ({{ $transfer->destinationAccount->type }})</td>
-                    <td>{{ number_format($transfer->amount, 2) }} FCFA</td>
+                    <td>{{ number_format($transfer->amount, 2) }} Fcfa</td>
                     <td>{{ $transfer->transfer_date }}</td>
                     <td>{{ $transfer->location ?? 'N/A' }}</td>
                     <td>
@@ -118,6 +121,9 @@
                 }
             });
 
+            // Update the total transfer count
+            document.getElementById('transfer-count').textContent = visibleRows.length;
+
             // Update the total transfers per destination account
             updateDestinationTotals(visibleRows);
         }
@@ -161,6 +167,8 @@
                 for (const [destinationId, totalAmount] of Object.entries(destinationTotals)) {
                     const account = accountsById[destinationId];
 
+                    if (!account) continue; // Skip if account not found
+
                     const card = document.createElement('div');
                     card.className = 'col-md-6 col-lg-4 mb-3';
 
@@ -173,7 +181,7 @@
 
                     const cardBody = document.createElement('div');
                     cardBody.className = 'card-body';
-                    cardBody.innerHTML = `<p class="card-text"><strong>Balance:</strong> ${totalAmount.toFixed(2)} FCFA</p>`;
+                    cardBody.innerHTML = `<p class="card-text"><strong>Solde :</strong> ${totalAmount.toFixed(2)} Fcfa</p>`;
 
                     cardDiv.appendChild(cardHeader);
                     cardDiv.appendChild(cardBody);
@@ -186,7 +194,7 @@
             }
         }
 
-        // Initial filter call to populate totals
+        // Initial filter call to populate totals and count
         filterTransfers();
     </script>
 </div>

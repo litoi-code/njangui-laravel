@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Fund Transfer & Loan Management System</h1>
+    <h1 class="mb-4">Association Des Hommes Dynamiques du Village Koumoul</h1>
     <div class="text-center">
         <a href="{{ route('accounts.index') }}" class="btn btn-primary me-2">Manage Accounts</a>
         <a href="{{ route('transfers.index') }}" class="btn btn-success me-2">View Transfers</a>

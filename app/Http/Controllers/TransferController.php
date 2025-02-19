@@ -33,6 +33,7 @@ class TransferController extends Controller
 
         // Fetch all accounts for destination account totals and filtering
         $accounts = Account::all();
+        
 
         return view('transfers.index', compact('transfers', 'accounts'));
     }
