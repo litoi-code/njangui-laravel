@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="mb-3">Create Transfer</h1>
+<h1 class="mb-3">Soumettez un transfert</h1>
 
 <div class="alert alert-info mb-3" id="total-amount-alert" style="display: none;">
-    <strong>Total Amount to Transfer:</strong> $<span id="total-amount">0.00</span>
+    <strong>Total Amount to Transfer:</strong> <span id="total-amount">0.00</span> Fcfa
 </div>
 
 <form action="{{ route('transfers.store') }}" method="POST" class="mb-4">
@@ -20,41 +20,70 @@
     </div>
 
     <div id="regular-transfer" class="mt-3">
-        <div class="mb-3">
-            <label class="form-label">Source Account:</label>
-            <select name="source_account_id" class="form-select" required>
-                @foreach($accounts as $account)
-                    <option value="{{ $account->id }}">{{ $account->name }} ({{ $account->type }})</option>
-                @endforeach
-            </select>
-        </div>
+        <!-- Regular Transfer Fields -->
+        <div class="row g-3">
+            <!-- Source Account Select -->
+            <div class="col-md-6">
+                <label class="form-label">Source Account:</label>
+                <select name="source_account_id" class="form-select" required>
+                    @foreach($accounts as $account)
+                        <option value="{{ $account->id }}">{{ $account->name }} ({{ $account->type }})</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Destination Account:</label>
-            <select name="destination_account_id" class="form-select" required>
-                @foreach($accounts as $account)
-                    <option value="{{ $account->id }}">{{ $account->name }} ({{ $account->type }})</option>
-                @endforeach
-            </select>
-        </div>
+            <!-- Destination Account Select -->
+            <div class="col-md-6">
+                <label class="form-label">Destination Account:</label>
+                <select name="destination_account_id" class="form-select" required>
+                    @foreach($accounts as $account)
+                        <option value="{{ $account->id }}">{{ $account->name }} ({{ $account->type }})</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Amount:</label>
-            <input type="number" name="amount" class="form-control" step="0.01" required>
+            <!-- Amount Input -->
+            <div class="col-md-6">
+                <label class="form-label">Mobtant:</label>
+                <input type="number" name="amount" class="form-control" step="0.01" required>
+            </div>
+
+            <!-- Location Input -->
+            <div class="col-md-6">
+                <label class="form-label">Location (Optional):</label>
+                <input type="text" name="location" class="form-control">
+            </div>
         </div>
     </div>
 
     <div id="distributed-transfer" class="mt-3" style="display:none;">
-        <div class="mb-3">
-            <label class="form-label">Source Account (Preselected Checking Accounts):</label>
-            <select name="source_account_id" class="form-select" required>
-                @foreach($accounts->where('type', 'Checking') as $account)
-                    <option value="{{ $account->id }}">{{ $account->name }} ({{ $account->type }})</option>
-                @endforeach
-            </select>
+        <!-- Distributed Transfer Fields -->
+        <div class="row g-3">
+            <!-- Source Account Select -->
+            <div class="col-md-4">
+                <label class="form-label">Source Account (Preselected Checking Accounts):</label>
+                <select name="source_account_id" class="form-select" required>
+                    @foreach($accounts->where('type', 'Checking') as $account)
+                        <option value="{{ $account->id }}">{{ $account->name }} ({{ $account->type }})</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Transfer Date -->
+            <div class="col-md-4">
+                <label class="form-label">Transfer Date:</label>
+                <input type="date" name="transfer_date" class="form-control" value="{{ date('Y-m-d') }}" required>
+            </div>
+
+            <!-- Location -->
+            <div class="col-md-4">
+                <label class="form-label">Location (Optional):</label>
+                <input type="text" name="location" class="form-control">
+            </div>
         </div>
 
-        <table class="table table-striped">
+        <!-- Destination Accounts Table -->
+        <table class="table table-striped mt-3">
             <thead>
                 <tr>
                     <th>Account</th>
@@ -62,26 +91,27 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    // Identify the second Savings account
+                    $savingsAccounts = $accounts->where('type', 'Savings')->values();
+                    $secondSavingsAccount = $savingsAccounts->get(1) ?? null;
+                @endphp
+
                 @foreach($accounts->where('type', '!=', 'Checking') as $account)
                     <tr>
                         <td>{{ $account->name }} ({{ $account->type }})</td>
                         <td>
-                            <input type="number" name="distributed_amounts[{{ $account->id }}]" class="form-control distributed-amount" value="0" step="0.01" oninput="updateTotalAmount()">
+                            <input type="number" 
+                                   name="distributed_amounts[{{ $account->id }}]" 
+                                   class="form-control distributed-amount" 
+                                   value="{{ $account->id === ($secondSavingsAccount?->id ?? null) ? 3500 : 0 }}" 
+                                   step="0.01" 
+                                   oninput="updateTotalAmount()">
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Transfer Date:</label>
-        <input type="date" name="transfer_date" class="form-control" value="{{ date('Y-m-d') }}" required>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Location (Optional):</label>
-        <input type="text" name="location" class="form-control">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -94,17 +124,11 @@
                 document.getElementById('regular-transfer').style.display = 'block';
                 document.getElementById('distributed-transfer').style.display = 'none';
                 document.getElementById('total-amount-alert').style.display = 'none';
-
-                // Enable the 'amount' field for Regular Transfer
-                document.querySelector('input[name="amount"]').setAttribute('required', 'true');
             } else {
                 document.getElementById('regular-transfer').style.display = 'none';
                 document.getElementById('distributed-transfer').style.display = 'block';
                 document.getElementById('total-amount-alert').style.display = 'block';
-
-                // Disable the 'amount' field for Distributed Transfer
-                document.querySelector('input[name="amount"]').removeAttribute('required');
-                updateTotalAmount();
+                updateTotalAmount(); // Update total amount on mode change
             }
         });
     });
@@ -119,25 +143,11 @@
 
         document.getElementById('total-amount').textContent = total.toFixed(2);
 
-        // Show or hide the alert based on whether any amounts are entered
         if (total > 0) {
             document.getElementById('total-amount-alert').style.display = 'block';
         } else {
             document.getElementById('total-amount-alert').style.display = 'none';
         }
     }
-
-    // Prevent form submission if no valid amounts are entered in Distributed Transfer mode
-    document.querySelector('form').addEventListener('submit', function(event) {
-        const transferMode = document.querySelector('input[name="transfer_mode"]:checked').value;
-
-        if (transferMode === 'distributed') {
-            const totalAmount = parseFloat(document.getElementById('total-amount').textContent);
-            if (totalAmount <= 0) {
-                event.preventDefault(); // Prevent form submission
-                alert('Please enter valid amounts for distributed transfers.');
-            }
-        }
-    });
 </script>
 @endsection
