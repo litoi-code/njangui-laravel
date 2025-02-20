@@ -123,11 +123,16 @@
             if (this.value === 'regular') {
                 document.getElementById('regular-transfer').style.display = 'block';
                 document.getElementById('distributed-transfer').style.display = 'none';
+
                 document.getElementById('total-amount-alert').style.display = 'none';
+                // Enable the 'amount' field for Regular Transfer
+                document.querySelector('input[name="amount"]').setAttribute('required', 'true');
             } else {
                 document.getElementById('regular-transfer').style.display = 'none';
                 document.getElementById('distributed-transfer').style.display = 'block';
                 document.getElementById('total-amount-alert').style.display = 'block';
+                // Disable the 'amount' field for Distributed Transfer
+                document.querySelector('input[name="amount"]').removeAttribute('required');
                 updateTotalAmount(); // Update total amount on mode change
             }
         });
