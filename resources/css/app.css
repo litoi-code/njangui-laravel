@@ -15,12 +15,12 @@ body {
 
 /* Navbar */
 .navbar {
-    background-color: #aaff00;
+    /* background-color: #aaff00; */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-brand {
-    color: white !important;
+    color: rgb(234, 39, 39) !important;
     font-weight: bold;
 }
 

@@ -11,13 +11,13 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #8ce0b6;
+            background-color: #dde4e0;
         }
         .container {
             margin-top: 20px;
         }
         .navbar {
-            background-color: #95e93c;
+            background-color: #c8cfc0;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }       
         .card {
@@ -54,7 +54,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light  mb-3">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">HODYVIKU</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

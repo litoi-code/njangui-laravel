@@ -4,17 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Transfer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request)
     {
-        // Fetch all transfers with optional filtering
+        // Fetch search query and date filters
         $query = $request->input('search');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
+        // Default to the current month if no date range is provided
+        if (empty($startDate) && empty($endDate)) {
+            $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
+            $endDate = Carbon::now()->endOfMonth()->format('Y-m-d');
+        }
+
+        // Fetch transfers with optional filtering
         $transfers = Transfer::when($query, function ($q) use ($query) {
             $q->whereHas('sourceAccount', function ($sourceQuery) use ($query) {
                 $sourceQuery->where('name', 'like', '%' . $query . '%');
@@ -22,20 +36,18 @@ class TransferController extends Controller
                 $destinationQuery->where('name', 'like', '%' . $query . '%');
             });
         })
-            ->when($startDate, function ($q) use ($startDate) {
-                $q->whereDate('transfer_date', '>=', $startDate);
-            })
-            ->when($endDate, function ($q) use ($endDate) {
-                $q->whereDate('transfer_date', '<=', $endDate);
-            })
-            ->with(['sourceAccount', 'destinationAccount'])
-            ->paginate(10);
+        ->when($startDate, function ($q) use ($startDate) {
+            $q->whereDate('transfer_date', '>=', $startDate);
+        })
+        ->when($endDate, function ($q) use ($endDate) {
+            $q->whereDate('transfer_date', '<=', $endDate);
+        })
+        ->with(['sourceAccount', 'destinationAccount'])
+        ->get(); // Paginate with 10 items per page
 
-        // Fetch all accounts for destination account totals and filtering
-        $accounts = Account::all();
+        $accounts = Account::all(); // Required for destination totals
 
-
-        return view('transfers.index', compact('transfers', 'accounts'));
+        return view('transfers.index', compact('transfers', 'accounts', 'query', 'startDate', 'endDate'));
     }
 
     public function create()

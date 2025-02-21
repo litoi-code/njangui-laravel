@@ -1,13 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- <h1 class="mb-3">Accounts</h1> --}}
-{{-- <a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a> --}}
 <h2 class="mb-4 d-flex justify-content-between align-items-center">
     <span>Total: <span id="account-count">{{ $accounts->count() }}</span></span>
     <a href="{{ route('accounts.create') }}" class="btn btn-success">Nouveau Compte</a>
 </h2>
-{{-- <h2 class="mb-4">Total Accounts: <span id="account-count">{{ $accounts->count() }}</span></h2> --}}
 
 <div class="input-group mb-3">
     <input type="text" id="account-search" class="form-control" placeholder="Search by name..." onkeyup="searchAccounts()">
@@ -45,7 +42,6 @@
 <div class="mt-4 d-flex justify-content-center">
     {{ $accounts->appends(request()->except('page'))->links() }}
 </div>
-{{-- <a href="{{ route('accounts.create') }}" class="btn btn-success">Create New Account</a> --}}
 
 <script>
     function searchAccounts() {

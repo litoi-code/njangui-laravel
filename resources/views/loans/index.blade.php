@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="mb-3">Loans</h1>
+<h1 class="mb-3">Prêts</h1>
 <h2 class="mb-4 d-flex justify-content-between align-items-center">
-    <span>Total Emprunts: <span id="transfer-count">{{ $loans->count() }}</span></span>
-    <a href="{{ route('transfers.create') }}" class="btn btn-success">Nouvel Emprunt</a>
+    <span>Total Emprunts: <span id="loan-count">{{ $loans->count() }}</span></span>
+    <a href="{{ route('loans.create') }}" class="btn btn-success">Nouvel Emprunt</a>
 </h2>
 
 <div class="input-group mb-3">
