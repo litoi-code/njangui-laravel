@@ -37,7 +37,6 @@ class ContributionController extends Controller
         $validated = $request->validate([
             'member_id' => 'required|exists:members,id',
             'host' => 'nullable|string|max:255',
-            'location' => 'nullable|string|max:255',
             'date' => 'required|date',
             'amounts' => 'required|array',
         ]);
@@ -55,7 +54,6 @@ class ContributionController extends Controller
                     'amount' => $amount,
                     'date' => $validated['date'],
                     'host' => $validated['host'],
-                    'location' => $validated['location'],
                 ]);
 
                 // Update member balance
@@ -102,7 +100,6 @@ class ContributionController extends Controller
             'amount' => 'required|numeric|min:0',
             'date' => 'required|date',
             'host' => 'nullable|string|max:255',
-            'location' => 'nullable|string|max:255',
         ]);
 
         // Reverse old contribution amounts

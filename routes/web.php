@@ -15,8 +15,8 @@ use App\Http\Controllers\TransactionController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Members Routes
-Route::get('/members/{member}', [MemberController::class, 'show'])->name('members.show');
 Route::resource('members', MemberController::class);
+Route::get('/members/{member}', [MemberController::class, 'show'])->name('members.show');
 
 Route::post('/penalties/{penalty}/pay', [PenaltyController::class, 'pay'])->name('penalties.pay');
 // Funds Routes
