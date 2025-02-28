@@ -8,6 +8,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PenaltyController;
 use App\Http\Controllers\TransactionController;
 
+// Penalty payment route
+
 
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -16,6 +18,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/members/{member}', [MemberController::class, 'show'])->name('members.show');
 Route::resource('members', MemberController::class);
 
+Route::post('/penalties/{penalty}/pay', [PenaltyController::class, 'pay'])->name('penalties.pay');
 // Funds Routes
 Route::resource('funds', FundController::class);
 

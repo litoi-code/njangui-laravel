@@ -17,12 +17,18 @@
             <tr class="border-b">
                 <td class="p-2">{{ $member->name }}</td>
                 <td class="p-2">${{ number_format($member->balance, 2) }}</td>
-                <td class="p-2">
-                    <a href="{{ route('members.edit', $member) }}" class="text-blue-500">Edit</a>
+                <td class="p-2 space-x-2">
+                    <!-- View Details Link -->
+                    <a href="{{ route('members.show', $member) }}" class="text-blue-500 hover:underline">View Details</a>
+
+                    <!-- Edit Link -->
+                    <a href="{{ route('members.edit', $member) }}" class="text-green-500 hover:underline">Edit</a>
+
+                    <!-- Delete Form -->
                     <form action="{{ route('members.destroy', $member) }}" method="POST" class="inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="text-red-500 ml-2">Delete</button>
+                        <button type="submit" class="text-red-500 hover:underline ml-2">Delete</button>
                     </form>
                 </td>
             </tr>

@@ -1,7 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\Contribution;
+use App\Models\Loan;
+use App\Models\Penalty;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -34,9 +38,12 @@ class MemberController extends Controller
     // Show a specific member
     public function show(Member $member)
     {
-        // Fetch all loans associated with the member
-        $loans = $member->loans()->with('fund')->get()
-        return view('members.show', compact('member'));
+        // Fetch related data
+        $contributions = Contribution::where('member_id', $member->id)->with('fund')->get();
+        $loans = Loan::where('member_id', $member->id)->with('fund')->get();
+        $penalties = Penalty::where('member_id', $member->id)->get();
+
+        return view('members.show', compact('member', 'contributions', 'loans', 'penalties'));
     }
 
     // Show form to edit a member
