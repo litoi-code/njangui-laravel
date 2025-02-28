@@ -19,7 +19,10 @@ class ContributionController extends Controller
         // Fetch all funds with their current balances
         $funds = Fund::all();
 
-        return view('contributions.index', compact('contributions', 'funds'));
+        // Fetch all members for the filter dropdown
+        $members = Member::all();
+
+        return view('contributions.index', compact('contributions', 'funds', 'members'));
     }
 
     /**
@@ -147,5 +150,52 @@ class ContributionController extends Controller
         $contribution->delete();
 
         return redirect()->route('contributions.index')->with('success', 'Contribution deleted successfully.');
+    }
+
+    /**
+     * Handle AJAX search for contributions.
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Filter contributions based on the search query
+        $contributions = Contribution::with(['member', 'fund'])
+            ->whereHas('member', function ($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%");
+            })
+            ->orWhereHas('fund', function ($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%");
+            })
+            ->orWhere('host', 'like', "%{$query}%")
+            ->get()
+            ->map(function ($contribution) {
+                return [
+                    'id' => $contribution->id,
+                    'member_name' => $contribution->member->name,
+                    'fund_name' => $contribution->fund->name,
+                    'amount' => $contribution->amount,
+                    'date' => $contribution->date,
+                    'host' => $contribution->host,
+                ];
+            });
+
+        // Calculate total balances for each fund based on filtered contributions
+        $fundBalances = Fund::all()->map(function ($fund) use ($contributions) {
+            $totalBalance = $contributions
+                ->where('fund_name', $fund->name)
+                ->sum('amount');
+
+            return [
+                'name' => $fund->name,
+                'type' => $fund->type,
+                'balance' => $totalBalance,
+            ];
+        });
+
+        return response()->json([
+            'contributions' => $contributions,
+            'fundBalances' => $fundBalances,
+        ]);
     }
 }
