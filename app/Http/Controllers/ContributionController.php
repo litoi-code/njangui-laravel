@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Contribution;
@@ -14,8 +13,13 @@ class ContributionController extends Controller
      */
     public function index()
     {
+        // Fetch all contributions with related data
         $contributions = Contribution::with(['member', 'fund'])->get();
-        return view('contributions.index', compact('contributions'));
+
+        // Fetch all funds with their current balances
+        $funds = Fund::all();
+
+        return view('contributions.index', compact('contributions', 'funds'));
     }
 
     /**
@@ -23,8 +27,10 @@ class ContributionController extends Controller
      */
     public function create()
     {
+        // Fetch all members and funds for dropdowns
         $members = Member::all();
         $funds = Fund::all();
+
         return view('contributions.create', compact('members', 'funds'));
     }
 
@@ -83,8 +89,10 @@ class ContributionController extends Controller
      */
     public function edit(Contribution $contribution)
     {
+        // Fetch all members and funds for dropdowns
         $members = Member::all();
         $funds = Fund::all();
+
         return view('contributions.edit', compact('contribution', 'members', 'funds'));
     }
 

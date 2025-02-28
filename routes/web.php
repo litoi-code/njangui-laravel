@@ -23,6 +23,7 @@ Route::post('/penalties/{penalty}/pay', [PenaltyController::class, 'pay'])->name
 Route::resource('funds', FundController::class);
 
 // Contributions Routes
+Route::get('/contributions/filter', [ContributionController::class, 'filter'])->name('contributions.filter');
 Route::resource('contributions', ContributionController::class);
 
 // Loans Routes
