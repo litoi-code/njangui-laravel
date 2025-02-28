@@ -1,75 +1,57 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <h1 class="mb-4">Association Des Hommes Dynamiques du Village Koumoul</h1>
-    <div class="text-center">
-        <a href="{{ route('accounts.index') }}" class="btn btn-primary me-2">Manage Accounts</a>
-        <a href="{{ route('transfers.index') }}" class="btn btn-success me-2">View Transfers</a>
-        <a href="{{ route('loans.index') }}" class="btn btn-danger">View Loans</a>
-    </div>
-
-    <!-- Savings Accounts -->
-    @if ($savingsAccounts->isNotEmpty())
-        <div class="row mb-4">
-            <div class="col-12">
-                <h3 class="text-success mb-3">Savings Accounts</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Association Finance Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Finance System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('members.index') }}">Members</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('funds.index') }}">Funds</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('contributions.index') }}">Contributions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('penalties.index') }}">Penalties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('loans.index') }}">Loans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('transactions.index') }}">Transactions</a>
+                    </li>
+                </ul>
             </div>
-            @foreach ($savingsAccounts as $account)
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            {{ $account->name }}
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text"><strong>Solde:</strong> {{ number_format($account->balance, 2) }} Fcfa</p>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
         </div>
-    @else
-        <div class="alert alert-info mb-4">No Savings accounts available.</div>
-    @endif
+    </nav>
 
-    <!-- Investment Accounts -->
-    @if ($investmentAccounts->isNotEmpty())
-        <div class="row mb-4">
-            <div class="col-12">
-                <h3 class="text-info mb-3">Investment Accounts</h3>
+    <!-- Landing Page Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="display-4">Welcome to the Association Finance Management System</h1>
+                <p class="lead">Manage your association's finances efficiently with this system.</p>
+                <a href="{{ route('members.index') }}" class="btn btn-primary btn-lg">Get Started</a>
             </div>
-            @foreach ($investmentAccounts as $account)
-                <div class="col-md-6 col-lg-4 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-info text-white">
-                            {{ $account->name }}
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text"><strong>Solde:</strong> {{ number_format($account->balance, 2) }} Fcfa</p>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    @else
-        <div class="alert alert-info mb-4">No Investment accounts available.</div>
-    @endif
-
-    <!-- Total Loan Repayment -->
-    <div class="card mb-4">
-        <div class="card-header bg-danger text-white">
-            Total Loan Repayment
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">{{ number_format(\App\Models\Loan::sum('total_repayment'), 2) }} Fcfa</h5>
         </div>
     </div>
 
-    <!-- Navigation Links -->
-    {{-- <div class="text-center">
-        <a href="{{ route('accounts.index') }}" class="btn btn-primary me-2">Manage Accounts</a>
-        <a href="{{ route('transfers.index') }}" class="btn btn-success me-2">View Transfers</a>
-        <a href="{{ route('loans.index') }}" class="btn btn-danger">View Loans</a>
-    </div> --}}
-</div>
-@endsection
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

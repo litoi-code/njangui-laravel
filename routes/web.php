@@ -1,12 +1,34 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\TransferController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\FundController;
+use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PenaltyController;
+use App\Http\Controllers\TransactionController;
 
+
+// Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::resource('accounts', AccountController::class);
-Route::resource('transfers', TransferController::class);
-Route::resource('loans', LoanController::class);
 
+// Members Routes
+Route::get('/members/{member}', [MemberController::class, 'show'])->name('members.show');
+Route::resource('members', MemberController::class);
+
+// Funds Routes
+Route::resource('funds', FundController::class);
+
+// Contributions Routes
+Route::resource('contributions', ContributionController::class);
+
+// Loans Routes
+Route::resource('loans', LoanController::class);
+// Loan repayment route
+Route::post('/loans/{loan}/repay', [LoanController::class, 'repay'])->name('loans.repay');
+
+// Penalties Routes
+Route::resource('penalties', PenaltyController::class);
+
+// Transactions Routes
+Route::resource('transactions', TransactionController::class);

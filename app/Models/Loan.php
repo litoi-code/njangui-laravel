@@ -1,20 +1,26 @@
 <?php
 
+// app/Models/Loan.php
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Loan extends Model
 {
-    protected $fillable = ['source_account_id', 'destination_account_id', 'principal', 'interest_rate', 'loan_term_months', 'start_date', 'total_repayment', 'location'];
+    use HasFactory;
 
-    public function sourceAccount()
+    protected $fillable = ['member_id', 'fund_id', 'amount', 'interest_rate', 'remaining_balance', 'start_date'];
+
+    // Relationships
+    public function member()
     {
-        return $this->belongsTo(Account::class, 'source_account_id');
+        return $this->belongsTo(Member::class);
     }
 
-    public function destinationAccount()
+    public function fund()
     {
-        return $this->belongsTo(Account::class, 'destination_account_id');
+        return $this->belongsTo(Fund::class);
     }
 }

@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
-use Illuminate\Support\Facades\View;
+use App\Models\Member;
+use App\Models\Fund;
+use App\Models\Contribution;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // Fetch Savings and Investment accounts with their balances
-        $savingsAccounts = Account::where('type', 'Savings')->get();
-        $investmentAccounts = Account::where('type', 'Investment')->get();
+        // Fetch total counts and sums
+        $totalMembers = Member::count();
+        $totalFunds = Fund::count();
+        $totalContributions = Contribution::sum('amount');
 
-        return view('welcome', [
-            'savingsAccounts' => $savingsAccounts,
-            'investmentAccounts' => $investmentAccounts,
-        ]);
+        return view('home', compact('totalMembers', 'totalFunds', 'totalContributions'));
     }
 }

@@ -3,92 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HODYVIKU</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #dde4e0;
-        }
-        .container {
-            margin-top: 20px;
-        }
-        .navbar {
-            background-color: #c8cfc0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }       
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
+    <title>Finance Management</title>
 
-        /* Custom Pagination Styles */
-    .pagination {
-        --bs-pagination-color: #007bff;
-        --bs-pagination-active-bg: #007bff;
-        --bs-pagination-active-color: #fff;
-        --bs-pagination-hover-bg: #e9ecef;
-    }
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    .pagination .page-link {
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-        line-height: 1.5;
-    }
-
-    .pagination .page-item:first-child .page-link,
-    .pagination .page-item:last-child .page-link {
-        border-radius: 0.25rem;
-    }
-    </style>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light  mb-3">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">HODYVIKU</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('accounts.*') ? 'active' : '' }}" href="{{ route('accounts.index') }}">Comptes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('transfers.*') ? 'active' : '' }}" href="{{ route('transfers.index') }}">Transferts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('loans.*') ? 'active' : '' }}" href="{{ route('loans.index') }}">Loans</a>
-                    </li>
+<body class="bg-gray-100 font-sans antialiased">
+    <div class="min-h-screen flex flex-col">
+        <!-- Navigation Bar -->
+        <nav class="bg-blue-600 text-white p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-xl font-bold"> Gestion HODYVIKU</h1>
+                <ul class="flex space-x-4">
+                    <li><a href="{{ route('home') }}" class="hover:underline">Home</a></li>
+                    <li><a href="{{ route('contributions.index') }}" class="hover:underline">Contributions</a></li>
+                    <li><a href="{{ route('members.index') }}" class="hover:underline">Membres</a></li>
+                    <li><a href="{{ route('funds.index') }}" class="hover:underline">Caisses</a></li>
+                    <li><a href="{{ route('loans.index') }}" class="hover:underline">Prêts</a></li>
+                    <li><a href="{{ route('penalties.index') }}" class="hover:underline">Penalités</a></li>
+                    {{-- <li><a href="{{ route('transactions.index') }}" class="hover:underline">Transactions</a></li> --}}
                 </ul>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="container">
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        <!-- Main Content -->
+        <main class="container mx-auto p-4 flex-grow">
+            @yield('content')
+        </main>
 
-        @if (session('warning'))
-            <div class="alert alert-warning">{{ session('warning') }}</div>
-        @endif
-
-        @yield('content')
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white text-center p-4">
+            &copy; {{ date('Y') }} Finance Management System
+        </footer>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

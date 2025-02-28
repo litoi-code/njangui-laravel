@@ -1,0 +1,178 @@
+resources/css/app.css
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+/* Navbar */
+.navbar {
+    /* background-color: #aaff00; */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    color: rgb(234, 39, 39) !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+    color: #fff !important;
+    background-color: #0056b3;
+    border-radius: 5px;
+}
+
+/* Cards */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-body h5 {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Tables */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Alerts */
+.alert {
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
+}
+
+/* Forms */
+.form-control {
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.form-check-input {
+    margin-right: 5px;
+}
+
+/* Toggle Buttons */
+.toggle-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.toggle-buttons label {
+    cursor: pointer;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.toggle-buttons input[type="radio"] {
+    display: none;
+}
+
+.toggle-buttons input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Custom Pagination Styles */
+.pagination {
+    --bs-pagination-color: #007bff; /* Link color */
+    --bs-pagination-active-bg: #007bff; /* Active page background */
+    --bs-pagination-active-color: #fff; /* Active page text color */
+    --bs-pagination-hover-bg: #e9ecef; /* Hover background */
+}
+
+.pagination .page-link {
+    font-size: 1rem; /* Adjust font size */
+    padding: 0.5rem 1rem; /* Adjust padding */
+    line-height: 1.5; /* Adjust line height */
+}
+
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+    border-radius: 0.25rem; /* Rounded corners */
+}
